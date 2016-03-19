@@ -1,7 +1,8 @@
-"use strict";
-
-var gulp = require('gulp');
+const gulp = require('gulp');
+const babel = require('gulp-babel');
 
 gulp.task('default', function() {
-  console.log('hello gulp');
+  gulp.src('src/*.js')
+    .pipe(babel())
+    .pipe(gulp.dest('dist'));
 });
