@@ -45,6 +45,11 @@ gulp.task('data', function() {
     .pipe(gulp.dest(config.paths.disttxt));
 });
 
+gulp.task('data', function() {
+  gulp.src(config.paths.xml)
+    .pipe(gulp.dest(config.paths.distxml));
+});
+
 gulp.task('babel', function() {
   gulp.src(config.paths.js)
     .pipe(babel())
