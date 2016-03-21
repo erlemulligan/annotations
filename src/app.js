@@ -4,6 +4,7 @@ let annotationXML = new XMLHttpRequest();
 let annotationUrl = "../data/xml/ch08.txt.xml";
 let annotationList = [];
 let annotationCategories = [];
+let chaptersList = [];
 
 // display chapter text from file within browser
 function displayChapterText() {

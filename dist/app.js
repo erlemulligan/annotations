@@ -6,6 +6,7 @@ var annotationXML = new XMLHttpRequest();
 var annotationUrl = "../data/xml/ch08.txt.xml";
 var annotationList = [];
 var annotationCategories = [];
+var chaptersList = [];
 
 // display chapter text from file within browser
 function displayChapterText() {
