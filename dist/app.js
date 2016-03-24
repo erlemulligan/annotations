@@ -74,8 +74,36 @@ function loadChapters(initChapterText) {
 // display chapter text from file within browser
 function initChapterText() {
   var chapterArea = document.getElementById("chapter__text");
-  if (chapterList.length > 7) {
+  if (chapterList.length === 8) {
     chapterArea.innerHTML = chapterList[7].text;
+    addAnnotationHighlights(chapterList[7]);
+  }
+}
+
+// add annotation highlighting markup to text
+function addAnnotationHighlights(currentChapter) {
+  var annotationList = currentChapter.annotationList;
+  if (annotationList.length > 0) {
+    console.log(annotationList);
+    var wrapper = document.createElement("span");
+    var range = document.createRange();
+    var rangeStartNode = document.getElementById("chapter__text");
+    var rangeEndNode = document.getElementById("chapter__text");
+    var rangeStartOffset = 0;
+    var rangeEndOffset = rangeEndNode.firstChild.length;
+    range.setStart(rangeStartNode.firstChild, rangeStartOffset);
+    range.setEnd(rangeEndNode.firstChild, rangeEndOffset);
+    for (var annotation = 0; annotation < annotationList.length; annotation++) {
+      var highlight = annotationList[annotation];
+      var _docid2 = highlight._docid.toLowerCase();
+      var startPos = highlight._id;
+      var endPos = highlight.end;
+      var category = highlight.category.toLowerCase();
+      range.setStart(rangeStartNode, startPos);
+      range.setEnd(rangeEndNode, endPos);
+      wrapper.className = category + " annotation__highlight";
+      range.surroundContents(wrapper);
+    }
   }
 }
 
