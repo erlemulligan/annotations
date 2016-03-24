@@ -79,6 +79,7 @@ function addAnnotationHighlights(currentChapter) {
   let annotationList = currentChapter.annotationList;
   if (annotationList.length > 0) {
     console.log(annotationList);
+    console.log(annotationCategories);
     let wrapper = document.createElement("span");
     let range = document.createRange();
     let rangeStartNode = document.getElementById("chapter__text");
@@ -93,8 +94,10 @@ function addAnnotationHighlights(currentChapter) {
       let startPos = highlight._id;
       let endPos = highlight.end;
       let category = highlight.category.toLowerCase();
-      range.setStart(rangeStartNode, startPos);
-      range.setEnd(rangeEndNode, endPos);
+      console.log(range);
+      range.setStart(rangeStartNode.firstChild, startPos);
+      range.setEnd(rangeEndNode.firstChild, endPos);
+      console.log(range);
       wrapper.className = category + " annotation__highlight";
       range.surroundContents(wrapper);
     }
