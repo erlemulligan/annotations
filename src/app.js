@@ -8,8 +8,10 @@ let chapterList = [];
 let annotationXML = new XMLHttpRequest();
 let annotationCategories = [];
 
+loadChapters(initChapterText);
+
 // create all chapter objects
-function loadChapters(displayChapterText) {
+function loadChapters(initChapterText) {
   for (var chapter = 0; chapter < chapterFilesList.length; chapter++) {
     let chapterFileName = chapterFilesList[chapter];
     let chapterText = new XMLHttpRequest();
@@ -53,23 +55,22 @@ function loadChapters(displayChapterText) {
       // TODO: check to make sure that the chapter with the id is not already included in the array of chapter objects before pushing it to the array
       let chapterName = chapterText.responseURL.substr(chapterText.responseURL.length - 8);
       chapterList.push(new Chapter(chapterName, chapterText.responseText, annotationList));
+      if (initChapterText) {
+        initChapterText();
+      }
     });
     chapterText.open("GET", chapterUrl);
     chapterText.send();
   }
-  if (displayChapterText) {
-    displayChapterText();
-  }
 
 }
 
-loadChapters(displayChapterText);
-
 // display chapter text from file within browser
-function displayChapterText() {
-  chapterList.sort();
-  console.log(chapterList);
+function initChapterText() {
   let chapterArea = document.getElementById("chapter__text");
+  if (chapterList.length > 7) {
+    chapterArea.innerHTML = chapterList[7].text;
+  }
 }
 
 // annotation object constructor class
@@ -79,8 +80,6 @@ function Annotation(_id, _docid, category, end, text) {
   this.category = category;
   this.end = end;
   this.text = text;
-  // TODO: add prototype methods to edit/update annotation objects
-  // TODO: add prototype method to delete annotation object most likely using .splice()
 }
 
 // chapter object constructor class
@@ -88,7 +87,7 @@ function Chapter(_id, text, annotationList) {
   this._id = _id;
   this.text = text;
   this.annotationList = annotationList;
-  // TODO: create loadChapterText function as method of object
-  // TODO: create displayChapterText function as method of object
+  // TODO: add prototype methods to edit/update annotation objects
+  // TODO: add prototype method to delete annotation object most likely using .splice()
 }
 

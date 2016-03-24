@@ -10,8 +10,10 @@ var chapterList = [];
 var annotationXML = new XMLHttpRequest();
 var annotationCategories = [];
 
+loadChapters(initChapterText);
+
 // create all chapter objects
-function loadChapters(displayChapterText) {
+function loadChapters(initChapterText) {
   var _loop = function _loop() {
     var chapterFileName = chapterFilesList[chapter];
     var chapterText = new XMLHttpRequest();
@@ -54,6 +56,9 @@ function loadChapters(displayChapterText) {
       // TODO: check to make sure that the chapter with the id is not already included in the array of chapter objects before pushing it to the array
       var chapterName = chapterText.responseURL.substr(chapterText.responseURL.length - 8);
       chapterList.push(new Chapter(chapterName, chapterText.responseText, annotationList));
+      if (initChapterText) {
+        initChapterText();
+      }
     });
     chapterText.open("GET", chapterUrl);
     chapterText.send();
@@ -64,18 +69,14 @@ function loadChapters(displayChapterText) {
 
     _loop();
   }
-  if (displayChapterText) {
-    displayChapterText();
-  }
 }
 
-loadChapters(displayChapterText);
-
 // display chapter text from file within browser
-function displayChapterText() {
-  chapterList.sort();
-  console.log(chapterList);
+function initChapterText() {
   var chapterArea = document.getElementById("chapter__text");
+  if (chapterList.length > 7) {
+    chapterArea.innerHTML = chapterList[7].text;
+  }
 }
 
 // annotation object constructor class
@@ -85,8 +86,6 @@ function Annotation(_id, _docid, category, end, text) {
   this.category = category;
   this.end = end;
   this.text = text;
-  // TODO: add prototype methods to edit/update annotation objects
-  // TODO: add prototype method to delete annotation object most likely using .splice()
 }
 
 // chapter object constructor class
@@ -94,6 +93,6 @@ function Chapter(_id, text, annotationList) {
   this._id = _id;
   this.text = text;
   this.annotationList = annotationList;
-  // TODO: create loadChapterText function as method of object
-  // TODO: create displayChapterText function as method of object
+  // TODO: add prototype methods to edit/update annotation objects
+  // TODO: add prototype method to delete annotation object most likely using .splice()
 }
