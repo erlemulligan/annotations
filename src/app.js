@@ -80,16 +80,12 @@ function addAnnotationHighlights(currentChapter) {
   if (annotationList.length > 0) {
     console.log(annotationList);
     console.log(annotationCategories);
-    let wrapper = document.createElement("span");
-    let range = document.createRange();
     let rangeStartNode = document.getElementById("chapter__text").firstChild;
     let rangeEndNode = document.getElementById("chapter__text").firstChild;
-    let rangeStartOffset = 0;
-    let rangeEndOffset = rangeEndNode.length;
-    range.setStart(rangeStartNode, rangeStartOffset);
-    range.setEnd(rangeEndNode, rangeEndOffset);
     for (var annotation = 0; annotation < annotationList.length; annotation++) {
       let range = document.createRange();
+      let rangeStartNode = document.getElementById("chapter__text").firstChild;
+      let rangeEndNode = document.getElementById("chapter__text").firstChild;
       let highlight = annotationList[annotation];
       let docid = highlight._docid.toLowerCase();
       let startPos = highlight._id;
@@ -97,6 +93,7 @@ function addAnnotationHighlights(currentChapter) {
       let category = highlight.category.toLowerCase();
       range.setStart(rangeStartNode, startPos);
       range.setEnd(rangeEndNode, endPos);
+      let wrapper = document.createElement("span");
       wrapper.className = category + " annotation__highlight";
       //range.surroundContents(wrapper);
       console.log(range);
