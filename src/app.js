@@ -4,9 +4,8 @@ let annotationFilesDirectory = "../data/xml/";
 let chapterFilesList = ["ch01.txt", "ch02.txt", "ch03.txt", "ch04.txt", "ch05.txt", "ch06.txt", "ch07.txt", "ch08.txt", "ch09.txt", "ch10.txt", "ch11.txt", "ch12.txt"];
 // TODO: use browserify to use the 'fs' filesystem node module client-side to find the xml file names located in the xml directory and automatically add them to the annotationFilesList array
 let annotationFilesList = ["ch08.txt.xml", "ch09.txt.xml", "ch10.txt.xml", "ch11.txt.xml", "ch12.txt.xml"];
-let chapterList = [];
-let annotationXML = new XMLHttpRequest();
-let annotationCategories = [];
+let chapterList = []; // array to store chapter objects
+let annotationCategories = []; // array to store annotation categories
 
 loadChapters(initChapterText);
 
@@ -77,8 +76,13 @@ function initChapterText() {
 // add annotation highlighting markup to text
 function addAnnotationHighlights(currentChapter) {
   let annotationList = currentChapter.annotationList;
+  let rangeArray = [];
+  console.log("Current Chapter Object:");
+  console.log(currentChapter);
   if (annotationList.length > 0) {
+    console.log("Current Chapter Annotation List:");
     console.log(annotationList);
+    console.log("Current Chapter Annotation Categories");
     console.log(annotationCategories);
     let rangeStartNode = document.getElementById("chapter__text").firstChild;
     let rangeEndNode = document.getElementById("chapter__text").firstChild;
@@ -88,15 +92,19 @@ function addAnnotationHighlights(currentChapter) {
       let rangeEndNode = document.getElementById("chapter__text").firstChild;
       let highlight = annotationList[annotation];
       let docid = highlight._docid.toLowerCase();
-      let startPos = highlight._id;
-      let endPos = highlight.end;
+      let startPos = parseInt(highlight._id);
+      let endPos = parseInt(highlight.end) + 1;
       let category = highlight.category.toLowerCase();
       range.setStart(rangeStartNode, startPos);
       range.setEnd(rangeEndNode, endPos);
-      let wrapper = document.createElement("span");
+      let wrapper = document.createElement('span');
       wrapper.className = category + " annotation__highlight";
-      //range.surroundContents(wrapper);
-      console.log(range);
+      rangeArray.push(range);
+      rangeArray[annotation].wrapper = wrapper;
+    }
+    for (var range = 0; range < rangeArray.length; range++) {
+       //console.log(rangeArray[range]);
+       rangeArray[range].surroundContents(rangeArray[range].wrapper);
     }
   }
 }

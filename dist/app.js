@@ -6,9 +6,8 @@ var annotationFilesDirectory = "../data/xml/";
 var chapterFilesList = ["ch01.txt", "ch02.txt", "ch03.txt", "ch04.txt", "ch05.txt", "ch06.txt", "ch07.txt", "ch08.txt", "ch09.txt", "ch10.txt", "ch11.txt", "ch12.txt"];
 // TODO: use browserify to use the 'fs' filesystem node module client-side to find the xml file names located in the xml directory and automatically add them to the annotationFilesList array
 var annotationFilesList = ["ch08.txt.xml", "ch09.txt.xml", "ch10.txt.xml", "ch11.txt.xml", "ch12.txt.xml"];
-var chapterList = [];
-var annotationXML = new XMLHttpRequest();
-var annotationCategories = [];
+var chapterList = []; // array to store chapter objects
+var annotationCategories = []; // array to store annotation categories
 
 loadChapters(initChapterText);
 
@@ -26,9 +25,9 @@ function loadChapters(initChapterText) {
 
       // if chapter text doc name matches a annotation xml file name then import the annotation records to the chapter object
       if (chapterFileName === annotationFileName) {
-        var _annotationXML = new XMLHttpRequest();
+        var annotationXML = new XMLHttpRequest();
         var annotationUrl = annotationFilesDirectory + annotationFilesList[annotation];
-        _annotationXML.addEventListener("load", function () {
+        annotationXML.addEventListener("load", function () {
           var annotationXML = this.responseXML;
           var docid = annotationXML.querySelector('document').getAttribute('DOCID');
           var annotationArray = annotationXML.querySelectorAll('span');
@@ -47,8 +46,8 @@ function loadChapters(initChapterText) {
           // sort annotation categories alphabetically
           annotationCategories.sort();
         });
-        _annotationXML.open("GET", annotationUrl);
-        _annotationXML.send();
+        annotationXML.open("GET", annotationUrl);
+        annotationXML.send();
       }
     }
 
@@ -83,26 +82,35 @@ function initChapterText() {
 // add annotation highlighting markup to text
 function addAnnotationHighlights(currentChapter) {
   var annotationList = currentChapter.annotationList;
+  var rangeArray = [];
+  console.log("Current Chapter Object:");
+  console.log(currentChapter);
   if (annotationList.length > 0) {
+    console.log("Current Chapter Annotation List:");
     console.log(annotationList);
+    console.log("Current Chapter Annotation Categories");
     console.log(annotationCategories);
     var rangeStartNode = document.getElementById("chapter__text").firstChild;
     var rangeEndNode = document.getElementById("chapter__text").firstChild;
     for (var annotation = 0; annotation < annotationList.length; annotation++) {
-      var range = document.createRange();
+      var _range = document.createRange();
       var _rangeStartNode = document.getElementById("chapter__text").firstChild;
       var _rangeEndNode = document.getElementById("chapter__text").firstChild;
       var highlight = annotationList[annotation];
       var _docid2 = highlight._docid.toLowerCase();
-      var startPos = highlight._id;
-      var endPos = highlight.end;
+      var startPos = parseInt(highlight._id);
+      var endPos = parseInt(highlight.end) + 1;
       var category = highlight.category.toLowerCase();
-      range.setStart(_rangeStartNode, startPos);
-      range.setEnd(_rangeEndNode, endPos);
-      var wrapper = document.createElement("span");
+      _range.setStart(_rangeStartNode, startPos);
+      _range.setEnd(_rangeEndNode, endPos);
+      var wrapper = document.createElement('span');
       wrapper.className = category + " annotation__highlight";
-      range.surroundContents(wrapper);
-      console.log(range);
+      rangeArray.push(_range);
+      rangeArray[annotation].wrapper = wrapper;
+    }
+    for (var range = 0; range < rangeArray.length; range++) {
+      //console.log(rangeArray[range]);
+      rangeArray[range].surroundContents(rangeArray[range].wrapper);
     }
   }
 }
