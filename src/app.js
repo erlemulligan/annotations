@@ -111,18 +111,18 @@ function addAnnotationHighlights(currentChapter) {
 
 // annotation object constructor class
 function Annotation(_id, _docid, category, end, text) {
-  this._id = _id;
-  this._docid = _docid;
-  this.category = category;
-  this.end = end;
-  this.text = text;
+  this._id = _id; // id of annotation (also the start value of the range of the annotation)
+  this._docid = _docid; // document id of chapter related to annotation
+  this.category = category; // annotation category
+  this.end = end; // end of range of annotation
+  this.text = text; // text of the annotation
 }
 
 // chapter object constructor class
 function Chapter(_id, text, annotationList) {
-  this._id = _id;
-  this.text = text;
-  this.annotationList = annotationList;
+  this._id = _id; // chapter id (the filename)
+  this.text = text; // full text of chapter
+  this.annotationList = annotationList; // array of the chapter's annotations
   // TODO: add prototype methods to edit/update annotation objects
   // TODO: add prototype method to delete annotation object most likely using .splice()
 }
