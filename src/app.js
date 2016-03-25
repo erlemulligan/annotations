@@ -61,7 +61,6 @@ function loadChapters(initChapterText) {
     chapterText.open("GET", chapterUrl);
     chapterText.send();
   }
-
 }
 
 // display chapter text from file within browser
@@ -77,14 +76,14 @@ function initChapterText() {
 function addAnnotationHighlights(currentChapter) {
   let annotationList = currentChapter.annotationList;
   let rangeArray = [];
-  console.log("All Chapter Objects (Chapter List Array): ");
+  console.log("All Chapter Objects (Chapter List Array):");
   console.log(chapterList);
   console.log("Current Chapter Object:");
   console.log(currentChapter);
   if (annotationList.length > 0) {
     console.log("Current Chapter Annotation List:");
     console.log(annotationList);
-    console.log("Current Chapter Annotation Categories");
+    console.log("Current Chapter Annotation Categories:");
     console.log(annotationCategories);
     let rangeStartNode = document.getElementById("chapter__text").firstChild;
     let rangeEndNode = document.getElementById("chapter__text").firstChild;
@@ -129,4 +128,19 @@ function Chapter(_id, text, annotationList) {
   // TODO: add prototype methods to edit/update annotation objects
   // TODO: add prototype method to delete annotation object most likely using .splice()
 }
+
+//TODO: add function to display list of chapters to select in html
+// function displayChapterMenu() {}
+
+//TODO: add function to load selected chapter when menu item is selected
+// function loadSelectedChapter() {}
+
+//TODO: add function to create annotation by getting range of user text selection
+// function createAnnotationBySelection() {}
+
+//TODO: add function to allow user to delete annotation
+// function deleteAnnotationBySelection() {}
+
+//TODO: create 'save' function that will return the annotations in a JSON format in the console
+// function saveAnnotationJSON() {}
 
