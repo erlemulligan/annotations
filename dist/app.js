@@ -83,6 +83,8 @@ function initChapterText() {
 function addAnnotationHighlights(currentChapter) {
   var annotationList = currentChapter.annotationList;
   var rangeArray = [];
+  console.log("All Chapter Objects (Chapter List Array): ");
+  console.log(chapterList);
   console.log("Current Chapter Object:");
   console.log(currentChapter);
   if (annotationList.length > 0) {
