@@ -99,6 +99,7 @@ function addAnnotationHighlights(currentChapter) {
       range.setEnd(rangeEndNode, endPos);
       let wrapper = document.createElement('span');
       wrapper.className = category + " annotation__highlight";
+      wrapper.title = category;
       rangeArray.push(range);
       rangeArray[annotation].wrapper = wrapper;
     }
