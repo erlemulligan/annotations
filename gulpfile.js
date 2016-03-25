@@ -4,6 +4,7 @@ var gulp = require('gulp');
 var connect = require('gulp-connect'); // runs a local dev server
 var open = require('gulp-open'); // open a url in a web browser
 var babel = require('gulp-babel');
+var sass = require('gulp-sass');
 
 var config = {
   port: 9005,
@@ -56,8 +57,18 @@ gulp.task('babel', function() {
     .pipe(gulp.dest(config.paths.dist));
 });
 
+gulp.task('sass', function() {
+  return gulp.src('./sass/**/*.sass')
+    .pipe(sass().on('error', sass.logError))
+    .pipe(gulp.dest('./css'));
+});
+
+gulp.task('sass:watch', function() {
+  gulp.watch('./sass/**/*.sass', ['sass']);
+});
+
 gulp.task('watch', function() {
    gulp.watch(config.paths.html, ['html'])
 });
 
-gulp.task('default', ['data', 'html', 'babel', 'open', 'watch']);
+gulp.task('default', ['data', 'html', 'sass', 'babel', 'open', 'watch']);
