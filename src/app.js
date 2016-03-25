@@ -82,24 +82,24 @@ function addAnnotationHighlights(currentChapter) {
     console.log(annotationCategories);
     let wrapper = document.createElement("span");
     let range = document.createRange();
-    let rangeStartNode = document.getElementById("chapter__text");
-    let rangeEndNode = document.getElementById("chapter__text");
+    let rangeStartNode = document.getElementById("chapter__text").firstChild;
+    let rangeEndNode = document.getElementById("chapter__text").firstChild;
     let rangeStartOffset = 0;
-    let rangeEndOffset = rangeEndNode.firstChild.length;
-    range.setStart(rangeStartNode.firstChild, rangeStartOffset);
-    range.setEnd(rangeEndNode.firstChild, rangeEndOffset);
+    let rangeEndOffset = rangeEndNode.length;
+    range.setStart(rangeStartNode, rangeStartOffset);
+    range.setEnd(rangeEndNode, rangeEndOffset);
     for (var annotation = 0; annotation < annotationList.length; annotation++) {
+      let range = document.createRange();
       let highlight = annotationList[annotation];
       let docid = highlight._docid.toLowerCase();
       let startPos = highlight._id;
       let endPos = highlight.end;
       let category = highlight.category.toLowerCase();
-      console.log(range);
-      range.setStart(rangeStartNode.firstChild, startPos);
-      range.setEnd(rangeEndNode.firstChild, endPos);
-      console.log(range);
+      range.setStart(rangeStartNode, startPos);
+      range.setEnd(rangeEndNode, endPos);
       wrapper.className = category + " annotation__highlight";
-      range.surroundContents(wrapper);
+      //range.surroundContents(wrapper);
+      console.log(range);
     }
   }
 }

@@ -88,24 +88,24 @@ function addAnnotationHighlights(currentChapter) {
     console.log(annotationCategories);
     var wrapper = document.createElement("span");
     var range = document.createRange();
-    var rangeStartNode = document.getElementById("chapter__text");
-    var rangeEndNode = document.getElementById("chapter__text");
+    var rangeStartNode = document.getElementById("chapter__text").firstChild;
+    var rangeEndNode = document.getElementById("chapter__text").firstChild;
     var rangeStartOffset = 0;
-    var rangeEndOffset = rangeEndNode.firstChild.length;
-    range.setStart(rangeStartNode.firstChild, rangeStartOffset);
-    range.setEnd(rangeEndNode.firstChild, rangeEndOffset);
+    var rangeEndOffset = rangeEndNode.length;
+    range.setStart(rangeStartNode, rangeStartOffset);
+    range.setEnd(rangeEndNode, rangeEndOffset);
     for (var annotation = 0; annotation < annotationList.length; annotation++) {
+      var _range = document.createRange();
       var highlight = annotationList[annotation];
       var _docid2 = highlight._docid.toLowerCase();
       var startPos = highlight._id;
       var endPos = highlight.end;
       var category = highlight.category.toLowerCase();
-      console.log(range);
-      range.setStart(rangeStartNode.firstChild, startPos);
-      range.setEnd(rangeEndNode.firstChild, endPos);
-      console.log(range);
+      _range.setStart(rangeStartNode, startPos);
+      _range.setEnd(rangeEndNode, endPos);
       wrapper.className = category + " annotation__highlight";
-      range.surroundContents(wrapper);
+      //range.surroundContents(wrapper);
+      console.log(_range);
     }
   }
 }
