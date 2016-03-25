@@ -1,2 +1,11 @@
 .annotation__highlight {
   background: #fffbcc; }
+
+.annotation__location {
+  background: #25e8f2; }
+
+.annotation__person {
+  background: #fffbcc; }
+
+.annotation__place {
+  background: #5aef00; }
